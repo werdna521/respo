@@ -21,21 +21,16 @@
         <div class="main-height-nav-sp uk-width-1-1 uk-padding-small uk-padding-remove-bottom">
             <ul class="uk-nav-default uk-nav-parent-icon uk-margin-small-bottom" uk-nav="multiple: true">
                 <li class="uk-nav-header uk-text-bold">Recipes</li>
-                <li class="uk-parent">
-                    <a href="#">Chickens</a>
-                    <ul class="uk-nav-sub">
-                        <li><a href="#">Rendang Ayam</a></li>
-                        <li><a href="#">Ayam Goreng Kalasan</a></li>
-                    </ul>
-                </li>
-                <li class="uk-parent">
-                    <a href="#">Snacks</a>
-                    <ul class="uk-nav-sub">
-                        <li><a href="#">Uyen</a></li>
-                        <li><a href="#">Kentang Goreng Krispi</a></li>
-                        <li><a href="#">Stik Kentang</a></li>
-                    </ul>
-                </li>
+                @foreach($data as $d)
+                    <li class="uk-parent">
+                        <a href="#">{{ $d['category'] }}</a>
+                        <ul class="uk-nav-sub">
+                            @foreach($d['data'] as $food)
+                                <li><a href="#">{{ $food['name'] }}</a></li>
+                            @endforeach
+                        </ul>
+                    </li>
+                @endforeach
             </ul>
         </div>
     </div>
