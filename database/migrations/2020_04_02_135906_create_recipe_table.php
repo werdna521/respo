@@ -17,6 +17,7 @@ class CreateRecipeTable extends Migration
             $table->id();
             $table->bigInteger('category_id');
             $table->char('recipe_name', 255);
+            $table->text('recipe_ingredients');
             $table->text('recipe_procedure');
             $table->timestamps();
         });

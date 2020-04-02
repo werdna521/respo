@@ -19,3 +19,29 @@
     height: calc(100vh - 68px);
     overflow-y: scroll;
 }
+
+.main-h1 {
+    font-size: 56px;
+}
+
+.main-h4 {
+    font-size: 18px !important;
+}
+
+.main-active {
+    color: #020814 !important;
+    font-weight: 600;
+}
+
+.main-left-margin-content {
+    margin-left: 300px;
+}
+
+.main-text-primary {
+    color: #020814 !important;
+}
+
+.main-text-content {
+    color: #73849e !important;
+    line-height: 2 !important;
+}

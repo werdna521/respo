@@ -28,13 +28,25 @@
                         <a href="#">{{ $d->category_name }}</a>
                         <ul class="uk-nav-sub">
                             @foreach($d->recipe as $r)
-                                <li><a href="/recipe/{{ $r->id }}">{{ $r->recipe_name }}</a></li>
+                                @if($r->recipe_name == $detail->recipe_name)
+                                    <li class="uk-active"><a class="main-active" href="#">{{ $r->recipe_name }}</a></li>
+                                @else
+                                    <li><a href="/recipe/{{ $r->id }}">{{ $r->recipe_name }}</a></li>
+                                @endif
                             @endforeach
                         </ul>
                     </li>
                 @endforeach
             </ul>
         </div>
+    </div>
+
+    <div class="main-left-margin-content uk-padding-large">
+        <div class="main-h1 main-text-primary uk-text-bolder">{{ $detail->recipe_name }}</div>
+        <div class="uk-margin-small-top uk-margin-remove-bottom uk-h2 uk-text-bold main-text-primary">Bahan:</div>
+        <div class="main-h4 uk-margin-remove-top main-text-content">{!! nl2br(e($detail->recipe_ingredients)) !!}</div>
+        <div class="uk-margin-small-top uk-margin-remove-bottom uk-h2 uk-text-bold main-text-primary">Cara Pembuatan:</div>
+        <div class="main-h4 uk-margin-remove-top main-text-content">{!! nl2br(e($detail->recipe_procedure)) !!}</div>
     </div>
 
 </div>

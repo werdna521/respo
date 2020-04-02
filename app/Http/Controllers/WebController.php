@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\RecipeController;
 
 class WebController extends Controller {
 
@@ -12,9 +11,18 @@ class WebController extends Controller {
     }
 
     public function home() {
-        $data = RecipeController::getAll();
+        $data = RecipeController::getAllForWeb();
         return view('/home', [
             'data' => $data
+        ]);
+    }
+
+    public function recipe_detail($id) {
+        $data = RecipeController::getAllForWeb();
+        $detail = RecipeController::getByIdForWeb($id);
+        return view('detail', [
+            'data' => $data,
+            'detail' => $detail
         ]);
     }
 }
