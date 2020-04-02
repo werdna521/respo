@@ -1,0 +1,21 @@
+.main-logo {
+    width: 32px;
+}
+
+.main-text-logo {
+    color: #020814 !important;
+    font-weight: bolder;
+}
+
+.main-border-right {
+    border-right: 2px solid #f1f5f8;
+}
+
+.main-border-bottom {
+    border-bottom: 2px solid #f1f5f8;
+}
+
+.main-height-nav-sp {
+    height: calc(100vh - 68px);
+    overflow-y: scroll;
+}
