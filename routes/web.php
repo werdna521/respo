@@ -18,3 +18,7 @@ Route::get('/', 'WebController@index');
 Route::get('/home', 'WebController@home');
 
 Route::get('/recipe/{id}', 'WebController@recipe_detail');
+
+Route::get('/search/{search_query}', 'WebController@recipe_search');
+
+Route::get('/search', 'WebController@search');

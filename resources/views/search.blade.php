@@ -31,15 +31,11 @@
             <ul class="uk-nav-default uk-nav-parent-icon uk-margin-small-bottom" uk-nav="multiple: true">
                 <li class="uk-nav-header uk-text-bold">Recipes</li>
                 @foreach($data as $d)
-                    <li class="uk-parent {{ $d->id == $detail->category->id ? 'uk-open' : '' }}">
+                    <li class="uk-parent">
                         <a href="#">{{ $d->category_name }}</a>
                         <ul class="uk-nav-sub">
                             @foreach($d->recipe->sortBy('recipe_name') as $r)
-                                @if($r->recipe_name == $detail->recipe_name)
-                                    <li class="uk-active"><a class="main-active" href="#">{{ $r->recipe_name }}</a></li>
-                                @else
-                                    <li><a href="/recipe/{{ $r->id }}">{{ $r->recipe_name }}</a></li>
-                                @endif
+                                <li><a href="/recipe/{{ $r->id }}">{{ $r->recipe_name }}</a></li>
                             @endforeach
                         </ul>
                     </li>
@@ -48,32 +44,35 @@
         </div>
     </div>
 
-    <div class="main-left-margin-content uk-padding-large uk-width-expand main-top-margin-content desktop">
-        <div class="uk-card uk-card-default uk-width-expand">
-            <div class="uk-card-header">
-                <div class="uk-grid-small uk-flex-middle" uk-grid>
-                    <div class="uk-width-auto">
-                        <img class="uk-border-circle" alt="logo" width="40" height="40" src="{{ asset('/img/logo.png') }}" />
+    <div class="main-left-margin-content uk-width-1-1@s uk-padding-large main-top-margin-content desktop">
+        <div>
+            @if ($search_result->count() != 0)
+                <div class="main-text-primary uk-h3">Search Result For {{ $search_query }}</div>
+            @else
+                <div class="main-text-primary uk-h3">Oops! No recipe found</div>
+            @endif
+            <div class="uk-width-1-1@s uk-grid-column-medium uk-grid-row-medium" uk-grid>
+                @foreach($search_result as $r)
+                    <div>
+                        <div class="uk-width-medium uk-card uk-card-default">
+                            <div class="uk-card-media-top">
+                                <img src="{{ asset('/img/logo.png') }}" alt="" />
+                            </div>
+                            <div class="uk-card-body">
+                                <h3 class="uk-card-title uk-margin-remove-bottom">{{ $r->recipe_name }}</h3>
+                                <div>Category: {{ $r->category->category_name }}</div>
+                                <div>{{ explode(' ', $r->created_at)[0] }}</div>
+                                <a href="{{ url('recipe/'.$r->id) }}" class="uk-margin-medium-top uk-width-1-1@s uk-button uk-button-primary">See Recipe</a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="uk-width-expand">
-                        <div class="uk-card-badge uk-badge uk-padding-small uk-padding-remove-vertical">{{ $detail->category->category_name }}</div>
-                        <div class="uk-card-title uk-margin-remove-bottom uk-h3">{{ $detail->recipe_name }}</div>
-                        <div class="uk-text-meta uk-margin-remove-top">Created at {{ explode(' ', $detail->created_at)[0] }}</div>
-                    </div>
-                </div>
-            </div>
-            <div class="uk-card-body">
-                <div class="uk-margin-small-top uk-margin-remove uk-h2 uk-text-bold main-text-primary">Bahan:</div>
-                <div class="main-h4 uk-margin-remove-top main-text-content">{!! nl2br(e($detail->recipe_ingredients)) !!}</div>
-                <div class="uk-margin-small-top uk-margin-medium-top uk-h2 uk-text-bold main-text-primary">Cara Pembuatan:</div>
-                <div class="main-h4 uk-margin-remove-top main-text-content">{!! nl2br(e($detail->recipe_procedure)) !!}</div>
+                @endforeach
             </div>
         </div>
     </div>
 
 </div>
 
-<img class="main-bg-1" src="{{ asset('/img/bg-1.png') }}" alt="bg" />
 
 <nav class="main-nav uk-flex uk-flex-row uk-flex-between mobile">
     <a class="uk-logo uk-margin-small-left main-text-logo" href="/home">
@@ -103,29 +102,29 @@
 <div class="amazingly-must uk-flex uk-flex-column uk-flex-middle uk-margin-xlarge-top">
     <form method="get" action="{{ action('WebController@search') }}" class="mobile uk-margin-small-top uk-width-1-1@s uk-search uk-search-default">
         @csrf
-        <a class="mobile" uk-search-icon></a>
+        <a uk-search-icon></a>
         <input class="uk-search-input mobile" name="search_query" type="search" placeholder="Search Recipe" />
     </form>
-    <div class="uk-margin-small-top uk-card uk-card-default uk-width-expand mobile">
-        <div class="uk-card-header">
-            <div class="uk-grid-small uk-flex-middle" uk-grid>
-                <div class="uk-width-auto">
-                    <img class="uk-border-circle" alt="logo" width="40" height="40" src="{{ asset('/img/logo.png') }}" />
+    @if ($search_result->count() != 0)
+        <div class="mobile main-text-primary uk-h3 uk-margin-small-top">Search Result For {{ $search_query }}</div>
+    @else
+        <div class="mobile main-text-primary uk-h3 uk-margin-small-top">Oops! No recipe found</div>
+    @endif
+    @foreach($search_result as $r)
+        <div class="mobile uk-margin-medium-bottom">
+            <div class="uk-width-medium uk-card uk-card-default">
+                <div class="uk-card-media-top">
+                    <img src="{{ asset('/img/logo.png') }}" alt="" />
                 </div>
-                <div class="uk-width-expand">
-                    <div class="uk-card-title uk-margin-remove-bottom uk-h3">{{ $detail->recipe_name }}</div>
-                    <div class="uk-text-meta uk-margin-remove-top">Created at {{ explode(' ', $detail->created_at)[0] }}</div>
+                <div class="uk-card-body">
+                    <h3 class="uk-card-title uk-margin-remove-bottom">{{ $r->recipe_name }}</h3>
+                    <div>Category: {{ $r->category->category_name }}</div>
+                    <div>{{ explode(' ', $r->created_at)[0] }}</div>
+                    <a href="{{ url('recipe/'.$r->id) }}" class="uk-margin-medium-top uk-width-1-1@s uk-button uk-button-primary">See Recipe</a>
                 </div>
             </div>
         </div>
-        <div class="uk-card-body">
-            <div class="uk-badge uk-margin-small-bottom uk-padding-small uk-padding-remove-vertical">{{ $detail->category->category_name }}</div>
-            <div class="uk-margin-small-top uk-margin-remove uk-h2 uk-text-bold main-text-primary">Bahan:</div>
-            <div class="main-h4 uk-margin-remove-top main-text-content">{!! nl2br(e($detail->recipe_ingredients)) !!}</div>
-            <div class="uk-margin-small-top uk-margin-medium-top uk-h2 uk-text-bold main-text-primary">Cara Pembuatan:</div>
-            <div class="main-h4 uk-margin-remove-top main-text-content">{!! nl2br(e($detail->recipe_procedure)) !!}</div>
-        </div>
-    </div>
+    @endforeach
 </div>
 
 </body>
